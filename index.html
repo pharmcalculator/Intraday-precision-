@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Intra-day Precision Calculation</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+        }
+
+        h1 {
+            font-size: 28px;
+            margin-bottom: 20px;
+        }
+
+        h2 {
+            font-size: 28px;
+            margin-top: 40px;
+            margin-bottom: 10px;
+        }
+
+        .container {
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+        }
+
+        .table-container {
+            margin: 0 20px;
+        }
+
+        table {
+            margin: 0 auto;
+            border-collapse: collapse;
+            width: 600px;
+        }
+
+        th, td {
+            padding: 8px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
+
+        input[type="number"] {
+            width: 100px;
+            font-size: 20px;
+        }
+
+        button {
+            margin-top: 20px;
+            padding: 10px 20px;
+            font-size: 28px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+
+        .result-table {
+            margin-top: 20px;
+            margin-bottom: 20px;
+            font-size: 24px;
+        }
+
+        .result-table th {
+            background-color: #4CAF50;
+            color: white;
+        }
+
+        .result-table td {
+            padding: 20px;
+        }
+
+        p {
+            font-size: 24px;
+        }
+    </style>
+    <script>
+        function calculatePrecision(tableId) {
+            // Get the input values from the table
+            var peakAreaInputs = [];
+            var table = document.getElementById(tableId);
+            var rows = table.getElementsByTagName("tr");
+            for (var i = 1; i < rows.length; i++) {
+                var input = rows[i].getElementsByTagName("input")[0];
+                peakAreaInputs.push(parseFloat(input.value));
+            }
+
+            // Calculate mean and standard deviation
+            var mean = calculateMean(peakAreaInputs);
+            var standardDeviation = calculateStandardDeviation(peakAreaInputs);
+
+            // Calculate coefficient of variation (CV%)
+            var cv = (standardDeviation / mean) * 100;
+
+            // Display the results
+            document.getElementById(tableId + "-mean").textContent = mean.toFixed(2);
+            document.getElementById(tableId + "-standardDeviation").textContent = standardDeviation.toFixed(2);
+            document.getElementById(tableId + "-cv").textContent = cv.toFixed(2) + "%";
+        }
+
+        function calculateMean(values) {
+            var sum = 0;
+            for (var i = 0; i < values.length; i++) {
+                sum += values[i];
+            }
+            return sum / values.length;
+        }
+
+        function calculateStandardDeviation(values) {
+            var mean = calculateMean(values);
+            var sum = 0;
+            for (var i = 0; i < values.length; i++) {
+                sum += Math.pow(values[i] - mean, 2);
+            }
+            return Math.sqrt(sum / (values.length - 1));
+        }
+    </script>
+</head>
+<body>
+    <h1>Intra-day Precision Calculation</h1>
+
+    <div class="container">
+        <div class="table-container">
+            <h2>High QC Sample</h2>
+            <table id="highQCTable">
+                <tr>
+                    <th>Injection</th>
+                    <th>Peak Area</th>
+                </tr>
+                <tr>
+                    <td>1</td>
+                    <td><input type="number" step="0.01"></td>
+                </tr>
+                <tr>
+                    <td>2</td>
+                    <td><input type="number" step="0.01"></td>
+                </tr>
+                <tr>
+                    <td>3</td>
+                    <td><input type="number" step="0.01"></td>
+                </tr>
+                <tr>
+                    <td>4</td>
+                    <td><input type="number" step="0.01"></td>
+                </tr>
+                <tr>
+                    <td>5</td>
+                    <td><input type="number" step="0.01"></td>
+                </tr>
+                <tr>
+                    <td>6</td>
+                    <td><input type="number" step="0.01"></td>
+                </tr>
+            </table>
+            <button type="button" onclick="calculatePrecision('highQCTable')">Calculate</button>
+            <table class="result-table">
+                <tr>
+                    <th>Mean</th>
+                    <th>Standard Deviation</th>
+                    <th>CV%</th>
+                </tr>
+                <tr>
+                    <td id="highQCTable-mean"></td>
+                    <td id="highQCTable-standardDeviation"></td>
+                    <td id="highQCTable-cv"></td>
+                </tr>
+            </table>
+        </div>
+
+        <div class="table-container">
+            <h2>Medium QC Sample</h2>
+            <table id="mediumQCTable">
+                <tr>
+                    <th>Injection</th>
+                    <th>Peak Area</th>
+                </tr>
+                <tr>
+                    <td>1</td>
+                    <td><input type="number" step="0.01"></td>
+                </tr>
+                <tr>
+                    <td>2</td>
+                    <td><input type="number" step="0.01"></td>
+                </tr>
+                <tr>
+                    <td>3</td>
+                    <td><input type="number" step="0.01"></td>
+                </tr>
+                <tr>
+                    <td>4</td>
+                    <td><input type="number" step="0.01"></td>
+                </tr>
+                <tr>
+                    <td>5</td>
+                    <td><input type="number" step="0.01"></td>
+                </tr>
+                <tr>
+                    <td>6</td>
+                    <td><input type="number" step="0.01"></td>
+                </tr>
+            </table>
+            <button type="button" onclick="calculatePrecision('mediumQCTable')">Calculate</button>
+            <table class="result-table">
+                <tr>
+                    <th>Mean</th>
+                    <th>Standard Deviation</th>
+                    <th>CV%</th>
+                </tr>
+                <tr>
+                    <td id="mediumQCTable-mean"></td>
+                    <td id="mediumQCTable-standardDeviation"></td>
+                    <td id="mediumQCTable-cv"></td>
+                </tr>
+            </table>
+        </div>
+
+        <div class="table-container">
+            <h2>Low QC Sample</h2>
+            <table id="lowQCTable">
+                <tr>
+                    <th>Injection</th>
+                    <th>Peak Area</th>
+                </tr>
+                <tr>
+                    <td>1</td>
+                    <td><input type="number" step="0.01"></td>
+                </tr>
+                <tr>
+                    <td>2</td>
+                    <td><input type="number" step="0.01"></td>
+                </tr>
+                <tr>
+                    <td>3</td>
+                    <td><input type="number" step="0.01"></td>
+                </tr>
+                <tr>
+                    <td>4</td>
+                    <td><input type="number" step="0.01"></td>
+                </tr>
+                <tr>
+                    <td>5</td>
+                    <td><input type="number" step="0.01"></td>
+                </tr>
+                <tr>
+                    <td>6</td>
+                    <td><input type="number" step="0.01"></td>
+                </tr>
+            </table>
+            <button type="button" onclick="calculatePrecision('lowQCTable')">Calculate</button>
+            <table class="result-table">
+                <tr>
+                    <th>Mean</th>
+                    <th>Standard Deviation</th>
+                    <th>CV%</th>
+                </tr>
+                <tr>
+                    <td id="lowQCTable-mean"></td>
+                    <td id="lowQCTable-standardDeviation"></td>
+                    <td id="lowQCTable-cv"></td>
+                </tr>
+            </table>
+        </div>
+    </div>
+
+    <p>Note: The FDA requires that acceptable criteria is: within-run and between runs: less that +/- 15% CV, except +/- 20% CV at LLOQ.</p>
+
+</body>
+</html>
